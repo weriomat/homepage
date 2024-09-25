@@ -18,6 +18,15 @@
         go
       ];
     in {
+      packages.default = pkgs.stdenv.mkDerivation {
+        name = "weriomat-website";
+        src = ./homepage;
+        nativeBuildInputs = [pkgs.hugo];
+        phases = ["unpackPhase" "buildPhase"];
+        buildPhase = ''
+          ${pkgs.hugo}/bin/hugo -s . -d "$out"
+        '';
+      };
       devShells = rec {
         default = dev;
         dev = pkgs.mkShell {
